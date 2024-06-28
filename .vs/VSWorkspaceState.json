@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\controllers",
+    "\\database",
+    "\\middlewares",
+    "\\models",
+    "\\routes"
+  ],
+  "SelectedNode": "\\routes\\inversiones.route.js",
+  "PreviewInSolutionExplorer": false
+}

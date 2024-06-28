@@ -5,7 +5,63 @@ const { generarJWT } = require("../helpers/generarjwt");
 const Setting = require("../models/setting");
 const e = require("express");
 //const { config } = require("dotenv/types");
+const { verificarSiEsSocio } = require("./users.controller");
+const { check } = require("express-validator");
+
 const tt = process.env.TOKENTIME;
+
+
+const loginv2 = async (req, res) => {
+  const { nick, password } = req.body;
+  try {
+    var usuario = await Usuario.findOne({ nick });
+    if (!usuario) {
+      return res.status(400).json({ "error": "Usuario o contraseña incorrectos", });
+    }
+    if (!usuario.estado) {
+      return res.status(400).json({ "error": "Usuario bloqueado" });
+    }
+    var conf = await Setting.findOne({ user: usuario._id });
+    if (!bcrypt.compareSync(password, usuario.password)) {
+      conf.try = conf.try + 1;
+      console.log("Error " + conf.try + " en login, usuario " + usuario.numerocliente);
+      if (conf.try >= 3) {
+        usuario.estado = false;
+        usuario.save();
+        console.log("Bloqueo de usuario " + usuario.numerocliente + " por intentos de acceso fallidos");
+      }
+      conf.save();
+      return res.status(400).json({ "error": "Usuario o contraseña incorrectos" });
+    } else {
+      var dia = new Date();
+      conf.try = 0;
+      conf.date = dia.getDate();
+      conf.amount_out = 0;
+      conf.transfer = 0;
+      conf.save();
+
+      const { _id, nombre, img, oficina, role, numerocliente, identificacion, check } = usuario;
+      let esSocio = await verificarSiEsSocio(identificacion);
+      const token = await generarJWT(_id, false, identificacion);
+      res.json({
+        token: token,
+        user: {
+          nombre,
+          nick: usuario.nick,
+          img,
+          oficina,
+          role,
+          cedula: identificacion,
+          essocio: esSocio,
+          check
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({ "error": error });
+  }
+}
 
 /******Login*******/
 const login = async (req, res) => {
@@ -181,9 +237,26 @@ const checker = async (req, res) => {
 
 /********ReNew Token********/
 const renewtoken = async (req, res) => {
-  const numerocliente = req.user;
+  const { _id, nombre, nick, img, role } = req.uid;
+  const token = await generarJWT(_id);
+  res.json({
+    ok: true,
+    token: token,
+    user: {
+      nombre: nombre,
+      nick: nick,
+      img: img,
+      role: role,
+    },
+  });
+};
+
+
+/********ReNew Token********/
+const renewtokenv2 = async (req, res) => {
+  const identificacion = req.user;
   const _id = req.iduser;
-  const token = await generarJWT(_id, false, numerocliente);
+  const token = await generarJWT(_id, false, identificacion);
   res.json({
     ok: true,
     token: token
@@ -194,9 +267,12 @@ const tokenValida = async (req = request, res = response) => {
   res.json({ ok: true });
 };
 
+
 module.exports = {
   login,
   checker,
   renewtoken,
+  renewtokenv2,
   tokenValida,
+  loginv2
 };

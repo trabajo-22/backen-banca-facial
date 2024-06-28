@@ -1,0 +1,245 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\inversiones.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:routes\\inversiones.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\models\\Servidor.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\Servidor.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\cuentas.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:routes\\cuentas.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\inversiones.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:controllers\\inversiones.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\cuentas.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:controllers\\cuentas.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\prestamo.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:routes\\prestamo.route.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-jwt.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:middlewares\\validate-jwt.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\prestamo.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:controllers\\prestamo.controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\sqlserver.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:database\\sqlserver.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:database\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-fields.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:middlewares\\validate-fields.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\package-lock.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:package-lock.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Servidor.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\models\\Servidor.js",
+              "RelativeDocumentMoniker": "models\\Servidor.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\models\\Servidor.js",
+              "RelativeToolTip": "models\\Servidor.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:33:05.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "app.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\app.js",
+              "RelativeDocumentMoniker": "app.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\app.js",
+              "RelativeToolTip": "app.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:32:59.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "inversiones.route.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\inversiones.route.js",
+              "RelativeDocumentMoniker": "routes\\inversiones.route.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\inversiones.route.js",
+              "RelativeToolTip": "routes\\inversiones.route.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:31:02.329Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "inversiones.controller.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\inversiones.controller.js",
+              "RelativeDocumentMoniker": "controllers\\inversiones.controller.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\inversiones.controller.js",
+              "RelativeToolTip": "controllers\\inversiones.controller.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACgAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:25:34.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "validate-jwt.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-jwt.js",
+              "RelativeDocumentMoniker": "middlewares\\validate-jwt.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-jwt.js",
+              "RelativeToolTip": "middlewares\\validate-jwt.js",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:21:47.995Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "prestamo.route.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\prestamo.route.js",
+              "RelativeDocumentMoniker": "routes\\prestamo.route.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\prestamo.route.js",
+              "RelativeToolTip": "routes\\prestamo.route.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T22:20:42.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "prestamo.controller.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\prestamo.controller.js",
+              "RelativeDocumentMoniker": "controllers\\prestamo.controller.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\prestamo.controller.js",
+              "RelativeToolTip": "controllers\\prestamo.controller.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T20:10:33.377Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "sqlserver.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\sqlserver.js",
+              "RelativeDocumentMoniker": "database\\sqlserver.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\sqlserver.js",
+              "RelativeToolTip": "database\\sqlserver.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T19:31:13.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "config.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\config.js",
+              "RelativeDocumentMoniker": "database\\config.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\database\\config.js",
+              "RelativeToolTip": "database\\config.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T19:31:11.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "package-lock.json",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\package-lock.json",
+              "RelativeDocumentMoniker": "package-lock.json",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\package-lock.json",
+              "RelativeToolTip": "package-lock.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-26T16:26:48.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "validate-fields.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-fields.js",
+              "RelativeDocumentMoniker": "middlewares\\validate-fields.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\middlewares\\validate-fields.js",
+              "RelativeToolTip": "middlewares\\validate-fields.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T16:11:30.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "cuentas.route.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\cuentas.route.js",
+              "RelativeDocumentMoniker": "routes\\cuentas.route.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\routes\\cuentas.route.js",
+              "RelativeToolTip": "routes\\cuentas.route.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T15:41:51.094Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "cuentas.controller.js",
+              "DocumentMoniker": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\cuentas.controller.js",
+              "RelativeDocumentMoniker": "controllers\\cuentas.controller.js",
+              "ToolTip": "C:\\Users\\Sistemas\\Documents\\SOFTWARE DESARROLLO\\BILLETERA DIGITAL\\API-REST-NODE\\controllers\\cuentas.controller.js",
+              "RelativeToolTip": "controllers\\cuentas.controller.js",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAACsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-04-26T15:29:12.474Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

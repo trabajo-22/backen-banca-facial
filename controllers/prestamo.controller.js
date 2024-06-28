@@ -2,7 +2,7 @@ const configsql = require("../database/sqlserver");
 const sql = require("mssql");
 
 const GetPrestamoOne = async (req = request, res = response) => {
-    const numerocliente = req.user;
+    const identificacion = req.user;
     var dataResult = [];
 
     let sqlQuery = ` select 
@@ -24,16 +24,20 @@ const GetPrestamoOne = async (req = request, res = response) => {
                         PrestamoMaestro.secuencial
                     from Cartera.PrestamoCliente
                     inner join Clientes.Cliente on Cliente.secuencial = PrestamoCliente.secuencialCliente
+                    inner join Personas.Persona on Persona.secuencial = Cliente.secuencialPersona
                     inner join Cartera.PrestamoMaestro on PrestamoMaestro.secuencial = PrestamoCliente.secuencialPrestamo
                     inner join Cartera.EstadoPrestamo on EstadoPrestamo.codigo = PrestamoMaestro.codigoEstadoPrestamo
                     inner join Credito.TipoPrestamo on TipoPrestamo.codigo = PrestamoMaestro.codigoTipoPrestamo
                     inner join Organizaciones.Oficina ON Oficina.secuencialDivision = PrestamoMaestro.secuencialOficina
                     inner join NegociosFinancieros.Producto ON Producto.codigo = PrestamoMaestro.codigoProductoCartera
-                    where numeroCliente = ${numerocliente} and PrestamoMaestro.codigoEstadoPrestamo != 'Z '
+                    where Persona.identificacion = @identificacion and PrestamoMaestro.codigoEstadoPrestamo != 'Z '
                     order by PrestamoMaestro.secuencial desc `
-
+    
     let cnn = await sql.connect(configsql)
-    let result = await cnn.query(sqlQuery)
+    let result = await cnn.request()
+        .input('identificacion', sql.VarChar(15), identificacion)
+        .query(sqlQuery)
+        
     dataResult = result.recordset
     await cnn.close()
 

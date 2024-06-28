@@ -124,6 +124,7 @@ const prestamo = async (req, res) => {
     frecuenciaPago,
   } = req.body;
   //segmentoInterno,
+
   const args = {
     codigoTipoPrestamo: tipoPrestamo,
     montoSolicitado: monto,
@@ -134,6 +135,7 @@ const prestamo = async (req, res) => {
     diaDePago: diaFijo,
     codigoSubcalificacion: subcalificacion,
   };
+  console.log(args)
   soap.createClient(url, function (err, client) {
     if (err) {
       console.log(err);
@@ -152,6 +154,7 @@ const prestamo = async (req, res) => {
             er,
           });
         }
+        console.log(result)
         res.json({ result });
       });
     }
@@ -224,7 +227,6 @@ const inversion = async (req, res) => {
     plazoEnDias,
     numeroDiasPeriodico,
   };
-  console.log(args);
   soap.createClient(url, function (err, client) {
     if (err) {
       console.log(err);

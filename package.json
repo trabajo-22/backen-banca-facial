@@ -21,12 +21,15 @@
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
     "jsonwebtoken": "^8.5.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
     "mongoose": "^5.13.9",
     "mongoose-unique-validator": "^2.0.3",
     "msnodesqlv8": "^4.1.2",
     "mssql": "^10.0.2",
+    "nodemailer": "^6.9.13",
+    "request-ip": "^3.3.0",
     "soap": "^0.33.0",
-    "tedious": "^18.1.0",
     "underscore": "^1.13.1"
   },
   "devDependencies": {
