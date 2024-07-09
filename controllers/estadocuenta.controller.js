@@ -277,7 +277,7 @@ const mesActual = () => {
 const devuelveFechasDePeriodo = (mes, anio) => {
     let fechaInicio = new Date(anio, mes - 1, 1);
     let fechaFin = new Date(anio, mes, 0);
-    let fechaEmision = new Date().toLocaleDateString('es-EC', { timeZone: 'America/Guayaquil' });
+    let fechaEmision = new Date().toLocaleDateString('es-CL', { timeZone: 'America/Santiago' });
     return { "fechainicio": fechaInicio, "fechafin": fechaFin, "fechaemision": fechaEmision }
 }
 

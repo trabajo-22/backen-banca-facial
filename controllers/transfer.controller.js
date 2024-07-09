@@ -114,7 +114,7 @@ const veridicarNumeroCuenta = async (identificacion, numerocuenta) => {
                   INNER JOIN Clientes.Cliente CC ON CC.secuencialPersona = PP.secuencial
                   INNER JOIN CaptacionesVista.CuentaCliente VC ON VC.secuencialCliente = CC.secuencial
                   INNER JOIN CaptacionesVista.CuentaMaestro CM ON CM.secuencial = vc.secuencialCuenta
-                  WHERE identificacion = @identificacion and CM.codigo = @numerocuenta and CM.codigoTipoCuenta != '00                  '`
+                  WHERE identificacion = @identificacion and CM.codigo = @numerocuenta and CM.codigoTipoCuenta != '00                  ' and CM.codigoEstado = 'A'`
   let cnn = await sql.connect(configsql)
   let result = await cnn.request()
     .input('identificacion', sql.VarChar(15), identificacion)
@@ -647,7 +647,7 @@ const transferenciaexternav2 = async (req, res) => {
   if (verificacion == false && conf.transfer > 0) {
     conf.transfer = 0;
     conf.amount_out = 0;
-    conf.save();
+    await conf.save();
   }
 
   if (montoconvertido > conf.amount) {
@@ -690,7 +690,7 @@ const transferenciaexternav2 = async (req, res) => {
             }
           }
           // actualizar fecha
-          conf.save();
+          await conf.save();
 
           soap.createClient(url, function (err, client) {
             if (err) {

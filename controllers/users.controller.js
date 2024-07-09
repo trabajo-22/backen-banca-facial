@@ -697,12 +697,12 @@ const RegistroUsuarioConOTP = async (req, res) => {
 };
 
 obtenerDatosCliente = async (identificacion) => {
-  let sqlQuery = `SELECT PE.nombreUnido nombres, PE.email, fechaNacimiento, PN.esMasculino, PT.nombre tipoidentificacion, OO.ciudad oficina, CC.numeroCliente  FROM Personas.Persona PE
-                    INNER JOIN Personas.Persona_Natural PN on PN.secuencialPersona = PE.secuencial
+  let sqlQuery = `SELECT PE.nombreUnido nombres, PE.email, ISNULL(fechaNacimiento, '') fechaNacimiento, ISNULL(PN.esMasculino, 0) esMasculino, PT.nombre tipoidentificacion, OO.ciudad oficina, CC.numeroCliente  FROM Personas.Persona PE
+                    LEFT JOIN Personas.Persona_Natural PN on PN.secuencialPersona = PE.secuencial
                     INNER JOIN Personas.TipoIdentificacion PT on PT.secuencial = PE.secuencialTipoIdentificacion
                     INNER JOIN Clientes.Cliente CC on CC.secuencialPersona = PE.secuencial
                     INNER JOIN Organizaciones.Oficina OO on OO.secuencialDivision = CC.secuencialOficina
-                  WHERE identificacion = @identificacion `
+                    WHERE identificacion = @identificacion `
 
   let cnn = await sql.connect(configsql)
   let result = await cnn.request()

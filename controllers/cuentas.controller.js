@@ -58,7 +58,7 @@ const GetTipoCuentasPorCliente = async (req = request, res = response) => {
                     INNER JOIN CaptacionesVista.CuentaMaestro ON CuentaMaestro.secuencial = CuentaCliente.secuencialCuenta
                     INNER JOIN CaptacionesVista.TipoCuenta ON TipoCuenta.codigo = CuentaMaestro.codigoTipoCuenta
                     INNER JOIN Personas.Persona ON Persona.secuencial = Cliente.secuencialPersona
-                    WHERE TipoCuenta.estaActivo = 1 and Persona.identificacion = @identificacion `
+                    WHERE TipoCuenta.estaActivo = 1 and Persona.identificacion = @identificacion and CuentaMaestro.codigoEstado = 'A' `
 
     let cnn = await sql.connect(configsql)
     let result = await cnn.request()
@@ -97,7 +97,7 @@ const GetCuentaAhorrosCliente = async (request, response) => {
                     inner join CaptacionesVista.CuentaCliente ON CuentaCliente.secuencialCuenta = CC.secuencial
                     inner join Clientes.Cliente ON Cliente.secuencial = CuentaCliente.secuencialCliente
                     inner join Personas.Persona PP ON PP.secuencial = Cliente.secuencialPersona
-                    where PP.identificacion = @identificacion and CC.codigoTipoCuenta = '01                  '  `
+                    where PP.identificacion = @identificacion and (CC.codigoTipoCuenta = '01                  ' or CC.codigoTipoCuenta = '09                  ') and CC.codigoEstado = 'A' `
     let cnn = await sql.connect(configsql)
     let result = await cnn.request()
         .input('identificacion', sql.VarChar(15), identificacion)
