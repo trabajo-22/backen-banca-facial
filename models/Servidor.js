@@ -30,6 +30,7 @@ class Servidor {
     this.movimientoCuentasPath = "/api/movimientocuentas";
     this.estadocuentaPath = "/api/estadocuenta";
     this.historialsesionPath = "/api/historialsesion";
+    this.preguntasSeguridad = "/api/preguntasseguridad";
 
     //conectar bd
     this.connectDB();
@@ -80,6 +81,7 @@ class Servidor {
     this.app.use(this.movimientoCuentasPath, require("../routes/movimientocuentas.route"));
     this.app.use(this.estadocuentaPath, require("../routes/estadocuenta.route"));
     this.app.use(this.historialsesionPath, require("../routes/historialsesion.route"));
+    this.app.use(this.preguntasSeguridad, require("../routes/preguntasseguridad.route"));
   }
 
 

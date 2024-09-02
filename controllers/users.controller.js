@@ -267,11 +267,13 @@ verificarSiTieneCuentasActivas = async (identificacion) => {
                         ( SELECT count(*) cantProductos from CaptacionesVista.CuentaCliente CC
                           INNER JOIN CaptacionesVista.CuentaMaestro CM ON CM.secuencial = CC.secuencialCuenta
                           WHERE secuencialCliente = Cliente.secuencial AND CM.codigoEstado = 'A'
-                          AND ( CM.codigoTipoCuenta = '01                  ' 
+                          AND (    CM.codigoTipoCuenta = '01                  ' 
                                 OR CM.codigoTipoCuenta = '02                  '
                                 OR CM.codigoTipoCuenta = '03                  '
                                 OR CM.codigoTipoCuenta = '07                  '
-                                OR CM.codigoTipoCuenta = '08                  ') )cantProductos
+                                OR CM.codigoTipoCuenta = '08                  '
+                                OR CM.codigoTipoCuenta = '09                  '
+                                OR CM.codigoTipoCuenta = '10                  ') )cantProductos
                     FROM Personas.Persona
                     INNER JOIN Clientes.Cliente ON Cliente.secuencialPersona = Persona.secuencial
                     WHERE identificacion = @identificacion `
@@ -291,7 +293,7 @@ verificarSiEsSocio = async (identificacion) => {
                   ( SELECT count(*) cantProductos from CaptacionesVista.CuentaCliente CC
                   INNER JOIN CaptacionesVista.CuentaMaestro CM ON CM.secuencial = CC.secuencialCuenta
                   WHERE secuencialCliente = Cliente.secuencial AND CM.codigoEstado = 'A'
-                  AND ( CM.codigoTipoCuenta = '00                  ' ) ) essocio
+                  AND ( CM.codigoTipoCuenta = '00                  ' OR CM.codigoTipoCuenta = '09                  ' ) ) essocio
                   FROM Personas.Persona
                   INNER JOIN Clientes.Cliente ON Cliente.secuencialPersona = Persona.secuencial
                   WHERE identificacion = @identificacion `

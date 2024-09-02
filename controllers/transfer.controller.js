@@ -711,7 +711,7 @@ const transferenciaexternav2 = async (req, res) => {
                     let comprobante = new Comprobante({
                       nombre: "Transferencia Interbancaria",
                       interna: 0,
-                      montoconvertido,
+                      monto: montoconvertido,
                       codigoTransaccion: resultado.ProcesaTransferenciaInterbancariaResult.NuevaTransferenciaMS.Documento,
                       codigoComision: resultado.ProcesaTransferenciaInterbancariaResult.NuevaTransferenciaMS.DocumentoComision,
                       detalle: JSON.stringify(resultado.ProcesaTransferenciaInterbancariaResult.NuevaTransferenciaMS.DetalleCuenta),
@@ -894,7 +894,7 @@ const externa = async (req, res) => {
                     comprobante = new Comprobante({
                       nombre: "Transferencia Interbancaria",
                       interna: 0,
-                      montoconvertido,
+                      monto: montoconvertido,
                       codigoTransaccion:
                         resultado.ProcesaTransferenciaInterbancariaResult
                           .NuevaTransferenciaMS.Documento,
