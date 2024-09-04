@@ -24,12 +24,34 @@ const {
   nuevasContrasena,
   verificaCheckTemporal,
   enviarCodigoOTPRecuperarUsuario,
-  enviarUsuarioRecuperarPorEmail
+  enviarUsuarioRecuperarPorEmail,
+  verificaCodigo,
+  enviarCodigoOTPDesbloquearCuenta
 } = require("../controllers/users.controller");
 const { validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
 const { validateJWT, validarJWTv2, validarJWTRecuperacionContrasena } = require("../middlewares/validate-jwt");
 const router = Router();
+
+
+router.post('/VerificarCedula', enviarCodigoOTPDesbloquearCuenta)
+// router.post('/VerificarCedula', verificarCedula)
+
+
+// recuperar codigo OTP
+router.post('/enviar-email-recuperar-codigo-otp',
+  validate(
+    [
+      body('codigootp').not().isEmpty().escape(),
+      body('codigootp').isLength({ min: 6, max: 6 }),
+      body('codigootp').isString(),
+    ]
+  ),
+  validarJWTv2,
+  verificaCodigo
+);
+
+
 
 // recuperar user
 router.post('/enviar-email-recuperar-user',

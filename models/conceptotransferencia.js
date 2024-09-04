@@ -16,6 +16,7 @@ const conceptotransferenciaSchema = Schema({
     type: String,
   },
 });
+
 conceptotransferenciaSchema.methods.toJSON = function () {
   let conceptotransferencia = this;
   let conceptotransferenciaObjeto = conceptotransferencia.toObject();

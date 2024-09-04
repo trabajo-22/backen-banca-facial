@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
+const { string } = require("request-ip/lib/is");
 
 const solicitudotpSchema = Schema({
   identificacion: {
@@ -10,7 +11,12 @@ const solicitudotpSchema = Schema({
   },
   esvalidado: {
     type: Boolean,
+  },
+  
+  transaccion:{
+    type: String
   }
+
 });
 solicitudotpSchema.methods.toJSON = function () {
   let solicitudotp = this;

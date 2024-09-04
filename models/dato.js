@@ -12,6 +12,7 @@ const datoSchema = Schema({
     type: String,
   },
 });
+
 datoSchema.methods.toJSON = function () {
   let dato = this;
   let datoObjeto = dato.toObject();

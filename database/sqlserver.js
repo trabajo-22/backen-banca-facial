@@ -1,8 +1,9 @@
 
+
 var configsql = {
     user: 'sa',
     password: '9595K9595k.',
-    server: 'JEFETI',
+    server: '192.168.20.28',
     port:1433,
     database: 'FuturoLamanense',
     options: {
@@ -27,3 +28,4 @@ var configsql = {
 
 
 module.exports = configsql;
+

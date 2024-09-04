@@ -11,12 +11,20 @@ const preguntasseguridadSchema = Schema({
   grupo: {
     type: Number,
   },
+  // dactilar:{
+  //   type: Number
+  // }
 });
+
+
+
 preguntasseguridadSchema.methods.toJSON = function () {
   let preguntasseguridad = this;
   let preguntasseguridadObjeto = preguntasseguridad.toObject();
   return preguntasseguridadObjeto;
 };
+
+
 
 preguntasseguridadSchema.plugin(uniqueValidator, {
   message: "{PATH} existe en la base de datos, debe de ser unico",

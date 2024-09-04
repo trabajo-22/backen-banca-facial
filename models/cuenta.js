@@ -18,6 +18,7 @@ const cuentaSchema = Schema({
     type: String,
   },
 });
+
 cuentaSchema.methods.toJSON = function () {
   let cuenta = this;
   let cuentaObjeto = cuenta.toObject();

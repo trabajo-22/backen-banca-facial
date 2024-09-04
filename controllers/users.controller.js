@@ -14,7 +14,11 @@ const { enviarEmailContrasenaTemporal } = require("../emails/Recuperarcontrasena
 const { enviarEmailRecuperarUsuario } = require("../emails/Recuperarusuario");
 const { guardarSolicitudRecuperarContrasenia, verificarMaximoSolicitudRecuperarContraPorDia } = require("../controllers/solicitudrecuperarcontrasena.controller");
 const { guardarSolicitudRecuperarUsuario, verificarMaximoSolicitudRecuperarUserPorDia } = require("../controllers/solicitudrecuperarusuario.controller");
+const { guardarSolicitudDesbloquear, verificarMaximoSolicitudPorDia } = require("../controllers/solicituddesbloquearcuenta.controller");
 const url = process.env.SOAP;
+
+
+
 
 const verificaCheckTemporal = async (req = request, res = response) => {
   res.json({ ok: true });
@@ -80,6 +84,85 @@ const enviarUsuarioRecuperarPorEmail = async (req, res) => {
   }
 }
 
+
+
+const verificaCodigo = async (req, res) => {
+  const identificacion = req.user;
+  const { codigootp } = req.body;
+
+  const solicitudotp = await Solicitudotp.findOne({ identificacion: identificacion, esvalidado: false }).sort({ $natural: -1 }).limit(1);
+
+  if (!bcrypt.compareSync(codigootp, solicitudotp.tokens)) {
+    res.status(400).json({ "error": "El código ingresado es Inválido" });
+  } else {
+    solicitudotp.esvalidado = true;
+    await solicitudotp.save();
+    res.status(200).json({ "response": "Usuario enviado correctamente" });
+  }
+}
+
+
+// TRABAJANBDO RECUPERAR CUENTA
+const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
+  const { identificacion } = req.body;
+  var usuario = await Usuario.findOne( {identificacion} );
+
+  if(usuario){
+    if (usuario.estado == true) {
+      // let superoMaximoSolicitud = await verificarMaximoSolicitudPorDia(identificacion);
+      // if (!superoMaximoSolicitud) {
+        const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
+        var codigoOtp = generarCodigoAleatorio() + '';
+        console.log(codigoOtp)
+        // encripta el codigo otp
+        var token = bcrypt.hashSync(codigoOtp, 10,
+          function (err, hash) {
+            if (err) {
+              console.log(err)
+              res.status(500).json({ "error": err });
+            }
+          }
+        );
+
+        await enviarSmsCodigoOtp(codigoOtp, identificacion);
+        let solicitudotp = new Solicitudotp({
+          identificacion: identificacion,
+          tokens: token,
+          esvalidado: false,
+          transaccion: 'OTP-DESBLOQUEO-USER'
+        });
+
+        await solicitudotp.save();
+        await guardarSolicitudDesbloquear(identificacion);
+        console.log(Solicitudotp)
+       
+        res.status(200).json({ "response": usuario.nombre, "token": tokenENVIO });
+     
+      // } else {
+      //   //  await bloquearUsuario(identificacion);
+      //   res.status(400).json({ "error": "Superaste el número máximo de solicitudes de recuperación de usuario, tu usuario ha sido bloqueado", });
+      // }
+     
+
+    }else {
+      res.status(400).json({ "response": "El usuario esta bloqueado, acérquese a la agencia más cercana" });
+    }
+  
+  }
+  else{
+    res.status(400).json({ "error": "No existe una cuenta creada en MiFuturo, ¡Crea una cuenta!", });
+    return
+  }
+
+
+}
+
+// 1205283417
+
+
+
+
+
 const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
   const { identificacion } = req.body;
 
@@ -124,6 +207,16 @@ const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
     return
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 const enviarContrasenaTemporal = async (req, res) => {
   const { identificacion } = req.body;
@@ -918,5 +1011,7 @@ module.exports = {
   nuevasContrasena,
   verificaCheckTemporal,
   enviarCodigoOTPRecuperarUsuario,
-  enviarUsuarioRecuperarPorEmail
+  enviarUsuarioRecuperarPorEmail,
+  enviarCodigoOTPDesbloquearCuenta,
+  verificaCodigo
 };

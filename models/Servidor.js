@@ -4,8 +4,11 @@ const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/config");
 
+
+
 class Servidor {
   constructor() {
+  
     this.https_options = {
       //key: fs.readFileSync("./cr/apifuturo.key"),
       //cert: fs.readFileSync("./cr/api_futurolamanense_fin_ec.crt"),
@@ -18,6 +21,9 @@ class Servidor {
     };
     this.app = express();
     this.port = process.env.PORT;
+    this.app.use(cors());
+    
+
     //Path de rutas
     this.userPath = "/api/user";
     this.sesionPath = "/api/log";
@@ -63,10 +69,12 @@ class Servidor {
       origin: "*",
       preflightContinue: false,
     };
+   
     this.app.use(cors(optionsCors));
     this.app.use(express.json());
     this.app.use(express.static("public"));
     this.app.use('/static', express.static('public'));
+   
   }
 
   routes() {
@@ -83,11 +91,11 @@ class Servidor {
     this.app.use(this.historialsesionPath, require("../routes/historialsesion.route"));
     this.app.use(this.preguntasSeguridad, require("../routes/preguntasseguridad.route"));
   }
-
+  
 
 
   listen() {
-    this.app.listen(this.port, () => {
+    this.app.listen(this.port,() => {
       console.log("Escuchando puerto:", this.port);
     });
 
