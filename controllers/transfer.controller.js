@@ -650,6 +650,7 @@ const transferenciaexternav2 = async (req, res) => {
     await conf.save();
   }
 
+  
   if (montoconvertido > conf.amount) {
     res.status(400).json({ "error": "Sobrepasa el monto diario" });
     return;

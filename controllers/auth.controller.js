@@ -31,7 +31,7 @@ const loginv2 = async (req, res) => {
         console.log("Bloqueo de usuario " + usuario.numerocliente + " por intentos de acceso fallidos");
       }
       conf.save();
-      return res.status(400).json({ "error": "Usuario o contraseña incorrectos" });
+      return res.status(400).json({"error": "Usuario o contraseña incorrectos" });
     } else {
       var dia = new Date();
       conf.try = 0;

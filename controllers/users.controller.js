@@ -102,7 +102,7 @@ const verificaCodigo = async (req, res) => {
 }
 
 
-// TRABAJANBDO RECUPERAR CUENTA
+//  RECUPERAR CUENTA
 const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
   const { identificacion } = req.body;
   var usuario = await Usuario.findOne( {identificacion} );
@@ -111,6 +111,7 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
     if (usuario.estado == true) {
       // let superoMaximoSolicitud = await verificarMaximoSolicitudPorDia(identificacion);
       // if (!superoMaximoSolicitud) {
+
         const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
         var codigoOtp = generarCodigoAleatorio() + '';
         console.log(codigoOtp)
@@ -136,14 +137,12 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
         await guardarSolicitudDesbloquear(identificacion);
         console.log(Solicitudotp)
        
-        res.status(200).json({ "response": usuario.nombre, "token": tokenENVIO });
+        res.status(200).json({ "response": usuario, "token": tokenENVIO });
      
       // } else {
-      //   //  await bloquearUsuario(identificacion);
+        
       //   res.status(400).json({ "error": "Superaste el número máximo de solicitudes de recuperación de usuario, tu usuario ha sido bloqueado", });
       // }
-     
-
     }else {
       res.status(400).json({ "response": "El usuario esta bloqueado, acérquese a la agencia más cercana" });
     }
@@ -157,12 +156,8 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
 
 }
 
+
 // 1205283417
-
-
-
-
-
 const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
   const { identificacion } = req.body;
 
@@ -209,18 +204,29 @@ const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
 }
 
 
-
-
-
-
-
+// CAMBIAR ESTADO USUARIO TRUE
+const cambiarEstado  = async (req, res) =>{
+  try {
+    const { identificacion, user} = req.body;
+     var usuario = await Usuario.findOne({ identificacion });
+    var sett= await setting.findOne({user})
+    if(usuario || sett){
+      sett.try = 0
+      usuario.estado = true;
+      sett.save();
+      usuario.save();
+      res.status(200).json({ message: "acualizado",  });
+    } 
+  } catch (error) {
+    res.status(500).json({ "error": "no update", });
+  }
+}
 
 
 
 
 const enviarContrasenaTemporal = async (req, res) => {
   const { identificacion } = req.body;
-
   var usuario = await Usuario.findOne({ identificacion });
   if (usuario) {
     if (usuario.estado == true) {
@@ -237,7 +243,6 @@ const enviarContrasenaTemporal = async (req, res) => {
             console.log(err);
           }
         });
-
         // actualizar en tabla usuarios(password, check, y role)
         usuario.password = contrasenaEncry;
         usuario.check = token;
@@ -263,6 +268,9 @@ const enviarContrasenaTemporal = async (req, res) => {
     return
   }
 }
+
+
+
 
 const bloquearUsuario = async (identificacion) => {
   var usuario = await Usuario.findOne({ identificacion });
@@ -350,6 +358,8 @@ const VerificarClientePorIdentificacion = async (req, res) => {
     }
   }
 }
+
+
 
 verificarSiTieneCuentasActivas = async (identificacion) => {
   let sqlQuery = `SELECT 
@@ -1013,5 +1023,6 @@ module.exports = {
   enviarCodigoOTPRecuperarUsuario,
   enviarUsuarioRecuperarPorEmail,
   enviarCodigoOTPDesbloquearCuenta,
-  verificaCodigo
+  verificaCodigo,
+  cambiarEstado
 };

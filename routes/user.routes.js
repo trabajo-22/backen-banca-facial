@@ -26,7 +26,8 @@ const {
   enviarCodigoOTPRecuperarUsuario,
   enviarUsuarioRecuperarPorEmail,
   verificaCodigo,
-  enviarCodigoOTPDesbloquearCuenta
+  enviarCodigoOTPDesbloquearCuenta,
+  cambiarEstado
 } = require("../controllers/users.controller");
 const { validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
@@ -34,8 +35,14 @@ const { validateJWT, validarJWTv2, validarJWTRecuperacionContrasena } = require(
 const router = Router();
 
 
-router.post('/VerificarCedula', enviarCodigoOTPDesbloquearCuenta)
-// router.post('/VerificarCedula', verificarCedula)
+router.post('/VerificarCedula',
+  validate([
+    body('identificacion').isLength({min:9, max:15})
+  ]),
+  enviarCodigoOTPDesbloquearCuenta)
+
+
+router.post('/cambiarDesbloqueoUser', cambiarEstado)
 
 
 // recuperar codigo OTP

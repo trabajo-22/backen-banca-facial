@@ -11,9 +11,7 @@ const preguntasseguridadSchema = Schema({
   grupo: {
     type: Number,
   },
-  // dactilar:{
-  //   type: Number
-  // }
+ 
 });
 
 
