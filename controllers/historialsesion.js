@@ -1,7 +1,7 @@
 const Historialsesion = require("../models/historialsesion");
 const requestIp = require('request-ip');
 const { enviarEmailInicioSesion } = require("../emails/Iniciosesion");
-const { obtenerDatosCliente } = require("../controllers/users.controller");
+const { obtenerDatosCliente } = require("../models/user.sql");
 
 const guardarHistorialSesion = async (req, res) => {
     const identificacion = req.user;

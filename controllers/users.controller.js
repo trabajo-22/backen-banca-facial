@@ -3,21 +3,17 @@ const Usuario = require("../models/user");
 const bcrypt = require("bcrypt");
 const _ = require("underscore");
 const soap = require("soap");
-const { rest } = require("underscore");
 const { generarJWT, generarJWTRecuperacion } = require("../helpers/generarjwt");
 const Dato = require("../models/dato");
 const setting = require("../models/setting");
-const sql = require("mssql");
-const configsql = require("../database/sqlserver");
 const Solicitudotp = require("../models/solicitudotp");
 const { enviarEmailContrasenaTemporal } = require("../emails/Recuperarcontrasena");
 const { enviarEmailRecuperarUsuario } = require("../emails/Recuperarusuario");
 const { guardarSolicitudRecuperarContrasenia, verificarMaximoSolicitudRecuperarContraPorDia } = require("../controllers/solicitudrecuperarcontrasena.controller");
 const { guardarSolicitudRecuperarUsuario, verificarMaximoSolicitudRecuperarUserPorDia } = require("../controllers/solicitudrecuperarusuario.controller");
-const { guardarSolicitudDesbloquear, verificarMaximoSolicitudPorDia } = require("../controllers/solicituddesbloquearcuenta.controller");
+const { guardarSolicitudDesbloquear } = require("../controllers/solicituddesbloquearcuenta.controller");
+const { verificarSiTieneCuentasActivas, verificarSiEsSocio, obtenerDatosCliente } = require("../models/user.sql");
 const url = process.env.SOAP;
-
-
 
 
 const verificaCheckTemporal = async (req = request, res = response) => {
@@ -304,37 +300,6 @@ const enviarSmsCodigoOtp = async (codigoOtp, identificacion) => {
   })
 }
 
-const usersR = (req = request, res = response) => {
-  const { p = 1, limit = 5 } = req.query;
-  const query = { estado: true };
-  const p2 = Number(p) * Number(limit);
-  Usuario.find(query)
-    .skip(p2)
-    .limit(Number(limit))
-    .exec((err, users) => {
-      console.log(users);
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err,
-        });
-      }
-      Usuario.countDocuments(query, (er, cantidad) => {
-        if (er) {
-          return res.status(400).json({
-            ok: false,
-            er,
-          });
-        }
-        res.json({
-          ok: true,
-          cantidad,
-          users,
-        });
-      });
-    });
-};
-
 const VerificarClientePorIdentificacion = async (req, res) => {
   const { identificacion } = req.body;
 
@@ -359,184 +324,6 @@ const VerificarClientePorIdentificacion = async (req, res) => {
   }
 }
 
-
-
-verificarSiTieneCuentasActivas = async (identificacion) => {
-  let sqlQuery = `SELECT 
-                        nombreUnido, 
-                        numeroCliente, 
-                        email, 
-                        Cliente.secuencial, 
-                        ( SELECT count(*) cantProductos from CaptacionesVista.CuentaCliente CC
-                          INNER JOIN CaptacionesVista.CuentaMaestro CM ON CM.secuencial = CC.secuencialCuenta
-                          WHERE secuencialCliente = Cliente.secuencial AND CM.codigoEstado = 'A'
-                          AND (    CM.codigoTipoCuenta = '01                  ' 
-                                OR CM.codigoTipoCuenta = '02                  '
-                                OR CM.codigoTipoCuenta = '03                  '
-                                OR CM.codigoTipoCuenta = '07                  '
-                                OR CM.codigoTipoCuenta = '08                  '
-                                OR CM.codigoTipoCuenta = '09                  '
-                                OR CM.codigoTipoCuenta = '10                  ') )cantProductos
-                    FROM Personas.Persona
-                    INNER JOIN Clientes.Cliente ON Cliente.secuencialPersona = Persona.secuencial
-                    WHERE identificacion = @identificacion `
-
-  let cnn = await sql.connect(configsql)
-  let result = await cnn.request()
-    .input('identificacion', sql.VarChar(15), identificacion)
-    .query(sqlQuery)
-
-  let cliente = result.recordset[0]
-  await cnn.close()
-  return cliente
-}
-
-verificarSiEsSocio = async (identificacion) => {
-  let sqlQuery = `SELECT 
-                  ( SELECT count(*) cantProductos from CaptacionesVista.CuentaCliente CC
-                  INNER JOIN CaptacionesVista.CuentaMaestro CM ON CM.secuencial = CC.secuencialCuenta
-                  WHERE secuencialCliente = Cliente.secuencial AND CM.codigoEstado = 'A'
-                  AND ( CM.codigoTipoCuenta = '00                  ' OR CM.codigoTipoCuenta = '09                  ' ) ) essocio
-                  FROM Personas.Persona
-                  INNER JOIN Clientes.Cliente ON Cliente.secuencialPersona = Persona.secuencial
-                  WHERE identificacion = @identificacion `
-  let cnn = await sql.connect(configsql)
-  let result = await cnn.request()
-    .input('identificacion', sql.VarChar(15), identificacion)
-    .query(sqlQuery)
-
-  let essocio = result.recordset[0].essocio
-  await cnn.close()
-  return essocio
-}
-
-const userRegister = async (req, res) => {
-  const { cedula, cuenta, sms, mail, nick } = req.body;
-  const args = {
-    identificacion: cedula,
-    numeroCliente: cuenta,
-    enviaSMS: sms,
-    enviaMail: !sms,
-  };
-  let datos, envio, msg;
-  soap.createClient(url, function (err, client) {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        opt: "cliente",
-        err,
-      });
-    } else {
-      console.log("Entra al servidor soap");
-      client.ConsultaClientesPorNumeroIdentificacion(
-        args,
-        async function (er, result) {
-          console.log(result)
-          if (er) {
-            console.log("Error al retornar datos del servicio 0001: " + er);
-            return res.status(400).json({
-              ok: false,
-              opt: "datos",
-              er,
-            });
-          } else {
-            console.log("Retorna datos del servicio 0001 REGISTRO");
-            envio = result.ConsultaClientesPorNumeroIdentificacionResult.EsRespuestaCorrecta;
-            msg = result.ConsultaClientesPorNumeroIdentificacionResult.MensajeRespuesta;
-            if (envio == "true") {
-              datos = result.ConsultaClientesPorNumeroIdentificacionResult.DatoPerfil;
-              let usuario = new Usuario({
-                nombre: datos.Nombres,
-                email: datos.Mail,
-                nick: nick,
-                password: "",
-                img: "/user/unknown-profile.jpg",
-                constitucion: datos.FechaNacimientoConstitucion,
-                estado: 1,
-                identificacion: datos.Identificacion,
-                oficina: datos.Oficina,
-                sexo: datos.Sexo,
-                Tidentificacion: datos.TipoIdentificacion,
-                numerocliente: datos.NumeroCliente,
-                role: "Role_User",
-                check: bcrypt.hashSync(datos.Token, 10, function (err, hash) {
-                  if (err) console.log(err);
-                }),
-                Date: Date.now(),
-                add: Date.now(),
-                update: "",
-              });
-              let dia = new Date();
-              let configuracion = new setting({
-                try: 0,
-                accept: true,
-                amount: 5000,
-                amount_out: 0,
-                transfer: 0,
-                months: 3,
-                date: dia.getDate(),
-                user: usuario._id,
-              });
-              usuario.save(async (er, userDB) => {
-                if (er) {
-                  return res.status(400).json({
-                    ok: false,
-                    er,
-                  });
-                } else {
-                  const token = await generarJWT(userDB._id, false, datos.NumeroCliente);
-                  configuracion.save();
-                  res.json({
-                    ok: true,
-                    message: "Usuario creado!",
-                    token: token,
-                  });
-                }
-              });
-            } else {
-              return res.status(400).json({
-                ok: false,
-                code: "U002",
-                message: msg,
-              });
-            }
-          }
-        }
-      );
-    }
-  });
-};
-/*
- **************************
- ****** ESTADO USR BD *****
- **************************
- */
-const userDelete = (req, res) => {
-  let id = req.params.uid;
-  Usuario.findById(id, function (err, usr) {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        err,
-      });
-    }
-    if (usr) {
-      usr.estado = !usr.estado;
-      usr.save();
-      return res.json({
-        ok: true,
-        usuario: usr,
-        detalle: `Borrado el usuarios`,
-      });
-    } else {
-      return res.status(400).json({
-        ok: false,
-        code: "D000",
-        message: "Usuario no encontrado",
-      });
-    }
-  });
-};
 
 const verificarContraseniaActual = async (req, res) => {
   const { claveactual } = req.body;
@@ -637,68 +424,7 @@ const cambiarContrasena = async (req, res) => {
  **** Asignar Password ****
  **************************
  */
-const userPassword = async (req, res) => {
-  const { password, passwordV } = req.body;
-  const { uid } = req;
-  await Usuario.findById(uid._id, function (err, usr) {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        code: "P00",
-        message: "NO EXISTE",
-        err,
-      });
-    }
-    if (password === passwordV) {
-      Dato.find({ cliente: usr._id }, function (er, datos) {
-        if (datos) {
-          if (datos.length) {
-            datos.forEach((dato) => {
-              console.log(dato.dato + "<-------------- DATO FOR EACH");
-              if (bcrypt.compareSync(password, dato.dato)) {
-                return res.status(200).json({
-                  ok: false,
-                  message: "Claves ya utilizada",
-                });
-              }
-            });
-          }
-        }
-      });
-      if (usr.password != null || usr.password != "") {
-        let dato = new Dato({
-          dato: usr.password,
-          fecha: new Date(),
-          cliente: usr._id,
-        });
-        dato.save();
-      }
-      usr.password = bcrypt.hashSync(password, 10, function (err, hash) {
-        console.log("encrypt");
-        if (err) {
-          console.log(err);
-          return res.status(500).json({
-            ok: false,
-            err,
-          });
-        }
-      });
-      usr.check = null;
-      usr.save();
-      return res.json({
-        ok: true,
-        usr,
-        detalle: "Contraseña asignada ",
-      });
-    } else {
-      return res.status(400).json({
-        ok: false,
-        code: "P001",
-        message: "Claves no son iguales",
-      });
-    }
-  });
-};
+
 const guardarHistorialContrasenas = async (contrasena, iduser) => {
   if (contrasena != null || contrasena != "") {
     let dato = new Dato({
@@ -800,24 +526,6 @@ const RegistroUsuarioConOTP = async (req, res) => {
     }
   }
 };
-
-obtenerDatosCliente = async (identificacion) => {
-  let sqlQuery = `SELECT PE.nombreUnido nombres, PE.email, ISNULL(fechaNacimiento, '') fechaNacimiento, ISNULL(PN.esMasculino, 0) esMasculino, PT.nombre tipoidentificacion, OO.ciudad oficina, CC.numeroCliente  FROM Personas.Persona PE
-                    LEFT JOIN Personas.Persona_Natural PN on PN.secuencialPersona = PE.secuencial
-                    INNER JOIN Personas.TipoIdentificacion PT on PT.secuencial = PE.secuencialTipoIdentificacion
-                    INNER JOIN Clientes.Cliente CC on CC.secuencialPersona = PE.secuencial
-                    INNER JOIN Organizaciones.Oficina OO on OO.secuencialDivision = CC.secuencialOficina
-                    WHERE identificacion = @identificacion `
-
-  let cnn = await sql.connect(configsql)
-  let result = await cnn.request()
-    .input('identificacion', sql.VarChar(15), identificacion)
-    .query(sqlQuery)
-
-  let cliente = result.recordset[0]
-  await cnn.close()
-  return cliente
-}
 
 guardarUsuario = async (nombres, email, nick, password, fechanacimiento, identificacion, oficina, tipoidentificacion, numerocliente, ckeck) => {
   let usuario = new Usuario({
@@ -1001,23 +709,16 @@ const renewcheck = async (req, res) => {
 };
 
 module.exports = {
-  usersR,
-  userRegister,
-  userDelete,
-  userPassword,
   renewcheck,
   passwordValidate,
   VerificarClientePorIdentificacion,
   generarCodigoOTP,
   RegistroUsuarioConOTP,
-  verificarSiEsSocio,
   cambiarContrasena,
   verificarContraseniaActual,
   verificarSiClevesFueronUtilizadas,
   verificarSiExisteNick,
-  verificarSiTieneCuentasActivas,
   enviarContrasenaTemporal,
-  obtenerDatosCliente,
   nuevasContrasena,
   verificaCheckTemporal,
   enviarCodigoOTPRecuperarUsuario,

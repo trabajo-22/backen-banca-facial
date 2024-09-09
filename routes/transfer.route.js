@@ -2,7 +2,6 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const router = Router();
 const {
-  beneficiarioInternoRegister,
   interna,
   internav2,
   beneficiarios,
@@ -28,30 +27,6 @@ const {
 const { validateFields, validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
 const { validateJWT, validarJWTv2 } = require("../middlewares/validate-jwt");
-
-router.post(
-  "/register/beneficiarioi",
-  [
-    check("nick", "Se requiere apodo").not().isEmpty(),
-    check("email", "Se requiere correo").not().isEmpty(),
-    check("cuenta", "Se requiere cuenta").not().isEmpty(),
-    check("identificacion", "Se requiere identificación").not().isEmpty(),
-    validateJWT,
-    validateFields,
-  ],
-  beneficiarioInternoRegister
-);
-
-router.post(
-  "/interna",
-  [
-    check("id", "Se requiere usuario").not().isEmpty(),
-    check("monto", "Se requiere monto a transferir").not().isEmpty(),
-    validateJWT,
-    validateFields,
-  ],
-  interna
-);
 
 router.post("/internav2",
   validate(
@@ -80,53 +55,6 @@ router.post("/tresferenciaexternav2",
   ),
   validarJWTv2,
   transferenciaexternav2
-);
-
-router.post(
-  "/register/beneficiarioexterno",
-  [
-    check("nick", "Se requiere apodo").not().isEmpty(),
-    check("email", "Se requiere correo").not().isEmpty(),
-    check("identificacion", "Se requiere identificación").not().isEmpty(),
-    check("nombre", "Se requiere Nombre").not().isEmpty(),
-    check(
-      "codigoConceptoTransferencia",
-      "Se requiere concepto de transferencia"
-    )
-      .not()
-      .isEmpty(),
-    check("codigoTipoCuentaTransferencia", "Se requiere Tipo de Cuenta")
-      .not()
-      .isEmpty(),
-    check(
-      "secuencialInstitucionTransferencia",
-      "Se requiere Institución Financiera"
-    )
-      .not()
-      .isEmpty(),
-    check(
-      "numeroCuentaBeneficiario",
-      "Se requiere numero de cuenta de beneficiario"
-    )
-      .not()
-      .isEmpty(),
-
-    validateJWT,
-    validateFields,
-  ],
-  BeneficiarioExternoRegister
-);
-
-router.post(
-  "/externa",
-  [
-    check("id", "Se requiere usuario").not().isEmpty(),
-    check("monto", "Se requiere monto a transferir").not().isEmpty(),
-    check("detalle", "Se requiere detalle de transferencia").not().isEmpty(),
-    validateJWT,
-    validateFields,
-  ],
-  externa
 );
 
 router.get("/comprobantes", [validateJWT], comprobantes);
