@@ -101,50 +101,50 @@ const verificaCodigo = async (req, res) => {
 //  RECUPERAR CUENTA
 const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
   const { identificacion } = req.body;
-  var usuario = await Usuario.findOne( {identificacion} );
+  var usuario = await Usuario.findOne({ identificacion });
 
-  if(usuario){
+  if (usuario) {
     if (usuario.estado == true) {
       // let superoMaximoSolicitud = await verificarMaximoSolicitudPorDia(identificacion);
       // if (!superoMaximoSolicitud) {
 
-        const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
-        var codigoOtp = generarCodigoAleatorio() + '';
-        console.log(codigoOtp)
-        // encripta el codigo otp
-        var token = bcrypt.hashSync(codigoOtp, 10,
-          function (err, hash) {
-            if (err) {
-              console.log(err)
-              res.status(500).json({ "error": err });
-            }
+      const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
+      var codigoOtp = generarCodigoAleatorio() + '';
+      console.log(codigoOtp)
+      // encripta el codigo otp
+      var token = bcrypt.hashSync(codigoOtp, 10,
+        function (err, hash) {
+          if (err) {
+            console.log(err)
+            res.status(500).json({ "error": err });
           }
-        );
+        }
+      );
 
-        await enviarSmsCodigoOtp(codigoOtp, identificacion);
-        let solicitudotp = new Solicitudotp({
-          identificacion: identificacion,
-          tokens: token,
-          esvalidado: false,
-          transaccion: 'OTP-DESBLOQUEO-USER'
-        });
+      await enviarSmsCodigoOtp(codigoOtp, identificacion);
+      let solicitudotp = new Solicitudotp({
+        identificacion: identificacion,
+        tokens: token,
+        esvalidado: false,
+        transaccion: 'OTP-DESBLOQUEO-USER'
+      });
 
-        await solicitudotp.save();
-        await guardarSolicitudDesbloquear(identificacion);
-        console.log(Solicitudotp)
-       
-        res.status(200).json({ "response": usuario, "token": tokenENVIO });
-     
+      await solicitudotp.save();
+      await guardarSolicitudDesbloquear(identificacion);
+      console.log(Solicitudotp)
+
+      res.status(200).json({ "response": usuario, "token": tokenENVIO });
+
       // } else {
-        
+
       //   res.status(400).json({ "error": "Superaste el número máximo de solicitudes de recuperación de usuario, tu usuario ha sido bloqueado", });
       // }
-    }else {
+    } else {
       res.status(400).json({ "response": "El usuario esta bloqueado, acérquese a la agencia más cercana" });
     }
-  
+
   }
-  else{
+  else {
     res.status(400).json({ "error": "No existe una cuenta creada en MiFuturo, ¡Crea una cuenta!", });
     return
   }
@@ -201,18 +201,18 @@ const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
 
 
 // CAMBIAR ESTADO USUARIO TRUE
-const cambiarEstado  = async (req, res) =>{
+const cambiarEstado = async (req, res) => {
   try {
-    const { identificacion, user} = req.body;
-     var usuario = await Usuario.findOne({ identificacion });
-    var sett= await setting.findOne({user})
-    if(usuario || sett){
+    const { identificacion, user } = req.body;
+    var usuario = await Usuario.findOne({ identificacion });
+    var sett = await setting.findOne({ user })
+    if (usuario || sett) {
       sett.try = 0
       usuario.estado = true;
       sett.save();
       usuario.save();
-      res.status(200).json({ message: "acualizado",  });
-    } 
+      res.status(200).json({ message: "acualizado", });
+    }
   } catch (error) {
     res.status(500).json({ "error": "no update", });
   }
@@ -489,6 +489,7 @@ const RegistroUsuarioConOTP = async (req, res) => {
       res.status(400).json({ error: "Ya existe usuario" });
       return;
     } else {
+
       // verificar si numero de cliente ya se encuentra registrado
       const usernick = await Usuario.findOne({ nick });
       if (usernick) {
@@ -508,6 +509,12 @@ const RegistroUsuarioConOTP = async (req, res) => {
               }
             });
             let cliente = await obtenerDatosCliente(identificacion);
+            // verificar el email
+            const emailUser = await Usuario.findOne({ email: cliente.email })
+            if (emailUser) {
+              res.status(400).json({ error: "El correo electrónico ya se encuentra registrado en otra cuenta. Actualiza tu correo electrónico" });
+              return;
+            }
             let iduser = await guardarUsuario(cliente.nombres, cliente.email, nick, contrasenaEncry, cliente.fechaNacimiento, identificacion, cliente.oficina, cliente.tipoidentificacion, cliente.numeroCliente, "true");
             console.log(iduser);
             await guardarHistorialContrasenas(contrasenaEncry)
@@ -548,9 +555,12 @@ guardarUsuario = async (nombres, email, nick, password, fechanacimiento, identif
   });
   await usuario.save(async (er, userDB) => {
     if (er) {
+      console.log(er);
       throw er
     }
+    console.log(userDB)
   });
+
   return usuario._id;
 }
 
