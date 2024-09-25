@@ -102,13 +102,16 @@ const verificaCodigo = async (req, res) => {
 }
 
 
+
+
 //  RECUPERAR CUENTA
 const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
   const { identificacion } = req.body;
+  console.log('dd0', identificacion)
   var usuario = await Usuario.findOne( {identificacion} );
 
   if(usuario){
-    if (usuario.estado == true) {
+    if (usuario.estado == false) {
       // let superoMaximoSolicitud = await verificarMaximoSolicitudPorDia(identificacion);
       // if (!superoMaximoSolicitud) {
 
@@ -135,7 +138,7 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
 
         await solicitudotp.save();
         await guardarSolicitudDesbloquear(identificacion);
-        console.log(Solicitudotp)
+        console.log('ddd',Solicitudotp)
        
         res.status(200).json({ "response": usuario, "token": tokenENVIO });
      
@@ -155,6 +158,11 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
 
 
 }
+
+
+
+
+
 
 
 // 1205283417

@@ -25,6 +25,7 @@ class Servidor {
     
 
     //Path de rutas
+    this.notificacion = "/api/notificacion";
     this.userPath = "/api/user";
     this.sesionPath = "/api/log";
     this.arrayPath = "/api/array";
@@ -78,6 +79,7 @@ class Servidor {
   }
 
   routes() {
+    this.app.use(this.notificacion, require("../routes/notificacion.route"));
     this.app.use(this.userPath, require("../routes/user.routes"));
     this.app.use(this.sesionPath, require("../routes/auth.route"));
     this.app.use(this.arrayPath, require("../routes/array.route"));

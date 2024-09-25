@@ -59,7 +59,7 @@ const loginv2 = async (req, res) => {
     }
   } catch (error) {
     console.log(error)
-    return res.status(400).json({ "error": error });
+    return res.status(400).json({"error": error });
   }
 }
 
