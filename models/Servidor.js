@@ -38,6 +38,8 @@ class Servidor {
     this.estadocuentaPath = "/api/estadocuenta";
     this.historialsesionPath = "/api/historialsesion";
     this.preguntasSeguridad = "/api/preguntasseguridad";
+    this.intentosAuthenticacion = "/api/intentosAuthenticacion";
+    this.preguntasqsabe = "/api/preguntasabe";
 
     //conectar bd
     this.connectDB();
@@ -92,6 +94,8 @@ class Servidor {
     this.app.use(this.estadocuentaPath, require("../routes/estadocuenta.route"));
     this.app.use(this.historialsesionPath, require("../routes/historialsesion.route"));
     this.app.use(this.preguntasSeguridad, require("../routes/preguntasseguridad.route"));
+    this.app.use(this.intentosAuthenticacion, require("../routes/intentosAthenticacion.route"));
+    this.app.use(this.preguntasqsabe, require("../routes/preguntaqsabe.route"));
   }
   
 

@@ -16,12 +16,20 @@ const {
   enviarUsuarioRecuperarPorEmail,
   verificaCodigo,
   enviarCodigoOTPDesbloquearCuenta,
-  cambiarEstado
+  cambiarEstado,
+  updateUsuario
 } = require("../controllers/users.controller");
 const { validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
 const { validateJWT, validarJWTv2, validarJWTRecuperacionContrasena } = require("../middlewares/validate-jwt");
 const router = Router();
+
+
+router.post('/updateUsuario',
+  validate([
+    body('identificacion').isLength({ min: 9, max: 15 })
+  ]),
+  updateUsuario)
 
 
 router.post('/VerificarCedula',
@@ -87,7 +95,7 @@ router.post('/cambiar-nueva-contrasena',
       body('contrasena2').isString(),
     ]
   ),
-  validarJWTRecuperacionContrasena,
+   validarJWTRecuperacionContrasena,
   nuevasContrasena
 );
 

@@ -13,6 +13,8 @@ const guardarSolicitudDesbloquear = async (identificacion) => {
     await solicitud.save();
 }
 
+
+
 const verificarMaximoSolicitudPorDia = async (identificacion) => {
     let fechastring = new Date().toLocaleDateString('es-EC', { timeZone: 'America/Guayaquil' });
     let data = await Solicituddesbloquearcuenta.find({ fechastring, identificacion });
@@ -22,6 +24,7 @@ const verificarMaximoSolicitudPorDia = async (identificacion) => {
         return false;
     }
 }
+
 
 module.exports = {
     guardarSolicitudDesbloquear,

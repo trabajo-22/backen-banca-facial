@@ -18,7 +18,7 @@ const guardarSolicitudRecuperarUsuario = async (identificacion) => {
 const verificarMaximoSolicitudRecuperarUserPorDia = async (identificacion) => {
     let fechastring = new Date().toLocaleDateString('es-EC', { timeZone: 'America/Guayaquil' });
     let data = await Solicitudrecuperarusuario.find({ fechastring, identificacion });
-    if (data.length >= 1) {
+    if (data.length >= 3) {
         return true;
     } else {
         return false;

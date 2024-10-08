@@ -5,6 +5,8 @@ const sql = require("mssql");
 const { DevuelveRespuesta } = require("../models/preguntasseguridad.sql");
 // FORMULARIO VER SI EXISTE INVERSION, CREDITO,CODIGO,FECHA
 
+
+
 const formulario = async (req, res) => {
     const { identificacion } = req.body;
     try {
@@ -16,26 +18,18 @@ const formulario = async (req, res) => {
 }
 
 
+
 const PreguntasSeguridadAll = async (req, res) => {
-    //  let preguntaSeguridad = new Preguntasseguridad({
-    //         pregunta:"Actualmente tiene una crédito en nuestra institución?.",
-    //         estado: true,
-    //         grupo: 2
-    //     })
-    //     await preguntaSeguridad.save();
-
-
-    try {
+      try {
         const result = await Preguntasseguridad.aggregate([{ $sample: { size: 1 } }]);
-
         return res.json(result);
-
     } catch (err) {
         console.error('Error:', err);
         return res.status(400).json({ error: err.message });
     }
-
 };
+
+
 
 module.exports = {
     PreguntasSeguridadAll,

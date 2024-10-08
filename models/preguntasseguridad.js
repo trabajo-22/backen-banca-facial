@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 
+
 const preguntasseguridadSchema = Schema({
   pregunta: {
     type: String,
@@ -11,7 +12,6 @@ const preguntasseguridadSchema = Schema({
   grupo: {
     type: Number,
   },
- 
 });
 
 
