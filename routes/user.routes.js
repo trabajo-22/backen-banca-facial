@@ -1,16 +1,5 @@
 const { Router } = require("express");
-const { check } = require("express-validator");
 const {
-  validateFields,
-  existsNick,
-  isRoleAdmin,
-  isCheckerTrue,
-} = require("../middlewares/validate-fields");
-const {
-  usersR,
-  userRegister,
-  userDelete,
-  userPassword,
   renewcheck,
   passwordValidate,
   VerificarClientePorIdentificacion,
@@ -37,7 +26,7 @@ const router = Router();
 
 router.post('/VerificarCedula',
   validate([
-    body('identificacion').isLength({min:9, max:15})
+    body('identificacion').isLength({ min: 9, max: 15 })
   ]),
   enviarCodigoOTPDesbloquearCuenta)
 
@@ -57,8 +46,6 @@ router.post('/enviar-email-recuperar-codigo-otp',
   validarJWTv2,
   verificaCodigo
 );
-
-
 
 // recuperar user
 router.post('/enviar-email-recuperar-user',
@@ -152,39 +139,6 @@ router.post('/registeruser',
   validarJWTv2,
   RegistroUsuarioConOTP
 )
-
-
-router.get("/list", usersR);
-router.post(
-  "/register",
-  [
-    check("cedula", "Se requiere la identificación").not().isEmpty(),
-    check("cuenta", "Se requiere el numero de cuenta").not().isEmpty(),
-    check("nick", "Se requiere el apodo").not().isEmpty(),
-    validateFields,
-    //existsCedula,
-    //existsCuenta,
-    existsNick,
-  ],
-  userRegister
-);
-router.delete("/statususer/:uid", [validateJWT, isRoleAdmin], userDelete);
-
-router.post("/pass",
-  [
-    check("password", "Se requiere el password")
-      .isLength({ min: 8 })
-      .not()
-      .isEmpty(),
-    check("passwordV", "Se requiere confirmación del password")
-      //.isLength({ min: 8 })
-      .not()
-      .isEmpty(),
-    validateJWT,
-    isCheckerTrue,
-  ],
-  userPassword
-);
 
 router.post("/cambiarcontrasena",
   validate(
