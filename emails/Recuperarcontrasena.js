@@ -1,13 +1,32 @@
 const { transporter } = require('./config');
 
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+
 const enviarEmailContrasenaTemporal = async (email, nombres, contraseniaTemporal) => {
-    const info = await transporter.sendMail({
-        from: 'Futuro Lamanense <servicios@futurolamanense.fin.ec>', // sender address
-        to: email, // list of receivers   
-        subject: "Contraseña Temporal", // Subject line
+    // const info = await transporter.sendMail({
+    //     from: 'Futuro Lamanense <servicios@futurolamanense.fin.ec>', // sender address
+    //     to: email, // list of receivers   
+    //     subject: "Contraseña Temporal", // Subject line
+    //     html: plantillaHtml(nombres, contraseniaTemporal),
+    // });
+    // console.log(info)
+    
+    const msg = {
+        to: email, 
+        from: 'Futuro Lamanense <serviciosenlinea@futurolamanense.fin.ec>', 
+        subject: "Contraseña Temporal",
         html: plantillaHtml(nombres, contraseniaTemporal),
-    });
-    console.log(info)
+    }
+    sgMail.send(msg).then(
+        () => {
+            console.log('Email sent')
+        }).catch((error) => {
+            console.error(error)
+        }
+        )
+
 }
 
 const plantillaHtml = (nombres, contraseniaTemporal) => {

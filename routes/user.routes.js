@@ -95,7 +95,7 @@ router.post('/cambiar-nueva-contrasena',
       body('contrasena2').isString(),
     ]
   ),
-   validarJWTRecuperacionContrasena,
+  //  validarJWTRecuperacionContrasena,
   nuevasContrasena
 );
 

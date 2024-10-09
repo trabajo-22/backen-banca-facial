@@ -18,7 +18,7 @@ const loginv2 = async (req, res) => {
     if (!bcrypt.compareSync(password, usuario.password)) {
       conf.try = conf.try + 1;
       console.log("Error " + conf.try + " en login, usuario " + usuario.numerocliente);
-      if (conf.try >= 3) {
+      if (conf.try >= 4) {
         usuario.estado = false;
         usuario.save();
         console.log("Bloqueo de usuario " + usuario.numerocliente + " por intentos de acceso fallidos");

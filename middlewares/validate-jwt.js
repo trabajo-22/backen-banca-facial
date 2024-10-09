@@ -56,6 +56,7 @@ const validarJWTv2 = async (req, res, next) => {
 const validarJWTRecuperacionContrasena = async (req, res, next) => {
   const token = req.header("x-force");
   if (!token) {
+    console.log('toeeee',token)
     return res.status(401).json({
       message: "No permitido",
     });
@@ -66,7 +67,7 @@ const validarJWTRecuperacionContrasena = async (req, res, next) => {
     req.user = identificacion;
     next();
   } catch (error) {
-    console.log(error)
+    console.log('a caducado..',error)
     return res.status(400).json({"error": "No permitido, Contraseña temporal a caducado"});
   }
 }

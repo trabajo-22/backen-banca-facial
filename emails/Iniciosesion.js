@@ -1,13 +1,35 @@
 const { transporter } = require('./config');
 
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+
+
 const enviarEmailInicioSesion = async (email, nombres, fechahora, canal, ip) => {
-    const info = await transporter.sendMail({
-        from: 'Futuro Lamanense <servicios@futurolamanense.fin.ec>', // sender address
-        to: email, // list of receivers   
-        subject: "Notificación de ingreso", // Subject line
+    // const info = await transporter.sendMail({
+    //     from: 'Futuro Lamanense <servicios@futurolamanense.fin.ec>', // sender address
+    //     to: email, // list of receivers   
+    //     subject: "Notificación de ingreso", // Subject line
+    //     html: plantillaHtml(nombres, fechahora, canal, ip),
+    // });
+
+    const msg = {
+        to: email, 
+        from: 'Futuro Lamanense <serviciosenlinea@futurolamanense.fin.ec>', 
+        subject: "Notificación de ingreso",
         html: plantillaHtml(nombres, fechahora, canal, ip),
-    });
-    console.log(info)
+    }
+
+
+    sgMail.send(msg).then(
+        () => {
+            console.log('Email sent')
+        }).catch((error) => {
+            console.error(error)
+        }
+    )
+
+
 }
 
 const plantillaHtml = (nombres, fechahora, canal, ip) => {
