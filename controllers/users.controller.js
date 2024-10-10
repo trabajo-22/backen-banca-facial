@@ -20,28 +20,29 @@ const verificaCheckTemporal = async (req = request, res = response) => {
   res.json({ ok: true });
 };
 
+const enviarUsuarioCliente = async (req, res) => {
+  const { identificacion } = req.body;
+  const usuario = await Usuario.findOne({ identificacion: identificacion });
+  await enviarEmailRecuperarUsuario(usuario.email, usuario.nombre, usuario.nick);
+  res.status(200).json({ "response": "Usuario enviado correctamente" });
+}
+
 const updateUsuario = async (req, res) => {
   const { identificacion, nick } = req.body;
-console.log(identificacion)
   if (!identificacion) {
     return res.status(400).json({ error: 'El campo identificación es requerido.' });
   }
-
   try {
     const usuario = await Usuario.findOne({ identificacion });
-
     if (!usuario) {
-      // Si no se encuentra el usuario, devolver un mensaje de error
       return res.status(400).json({ error: 'Usuario no encontrado.' });
     }
-
     usuario.nick = nick;
-    
     await usuario.save();
-    return res.status(200).json({ 
+    return res.status(200).json({
       message: 'Usuario actualizado con exito. Por favor, inicie sesión con su nuevo usuario.'
-     });
-    
+    });
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'Error al actualizar el usuario.' });
@@ -49,15 +50,10 @@ console.log(identificacion)
 };
 
 
-
 const nuevasContrasena = async (req, res) => {
- 
   const { contrasena1, contrasena2, identificacion } = req.body;
-
   if (contrasena1 == contrasena2) {
     var usuario = await Usuario.findOne({ identificacion });
-    console.log(usuario)
-    // esta es la contraseña nueva
     let contrasenaEncry = bcrypt.hashSync(contrasena1, 10, function (err, hash) {
       if (err) {
         console.log(err);
@@ -102,7 +98,6 @@ const enviarUsuarioRecuperarPorEmail = async (req, res) => {
   } else {
     solicitudotp.esvalidado = true;
     await solicitudotp.save();
-
     let cliente = await obtenerDatosCliente(identificacion);
     const user = await Usuario.findOne({ identificacion: identificacion });
     await enviarEmailRecuperarUsuario(cliente.email, cliente.nombres, user.nick);
@@ -115,9 +110,7 @@ const enviarUsuarioRecuperarPorEmail = async (req, res) => {
 const verificaCodigo = async (req, res) => {
   const identificacion = req.user;
   const { codigootp } = req.body;
-
   const solicitudotp = await Solicitudotp.findOne({ identificacion: identificacion, esvalidado: false }).sort({ $natural: -1 }).limit(1);
-
   if (!bcrypt.compareSync(codigootp, solicitudotp.tokens)) {
     res.status(400).json({ "error": "El código ingresado es Inválido" });
   } else {
@@ -134,7 +127,6 @@ const verificaCodigo = async (req, res) => {
 const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
   const { identificacion } = req.body;
   var usuario = await Usuario.findOne({ identificacion });
-
   if (usuario) {
     if (usuario.estado == false) {
       const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
@@ -149,7 +141,6 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
           }
         }
       );
-
       await enviarSmsCodigoOtp(codigoOtp, identificacion);
       let solicitudotp = new Solicitudotp({
         identificacion: identificacion,
@@ -162,8 +153,6 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
       await guardarSolicitudDesbloquear(identificacion);
       //  await desbloquearUsuario(identificacion)
       res.status(200).json({ "response": usuario, "token": tokenENVIO });
-
-
     } else {
       res.status(400).json({ "error": "Su cuenta no está bloqueada. Por favor, inicie sesión con sus credenciales." });
     }
@@ -172,7 +161,6 @@ const enviarCodigoOTPDesbloquearCuenta = async (req, res) => {
     res.status(400).json({ "error": "No existe una cuenta creada en MiFuturo, ¡Crea una cuenta!", });
     return
   }
-
 }
 
 const desbloquearUsuario = async (identificacion) => {
@@ -181,14 +169,9 @@ const desbloquearUsuario = async (identificacion) => {
   usuario.save();
 }
 
-
-
-
-
 // 1205283417
 const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
   const { identificacion } = req.body;
-
   var usuario = await Usuario.findOne({ identificacion });
   if (usuario) {
     if (usuario.estado == true) {
@@ -197,7 +180,7 @@ const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
         const tokenENVIO = await generarJWT(usuario._id, false, identificacion);
 
         var codigoOtp = generarCodigoAleatorio() + '';
-         console.log('mi codigp ', codigoOtp)
+        console.log('mi codigp ', codigoOtp)
         // encripta el codigo otp
         var token = bcrypt.hashSync(codigoOtp, 10,
           function (err, hash) {
@@ -216,8 +199,7 @@ const enviarCodigoOTPRecuperarUsuario = async (req, res) => {
         });
         await solicitudotp.save();
         await guardarSolicitudRecuperarUsuario(identificacion);
-
-        res.status(200).json({ "response": usuario.nombre, "token": tokenENVIO, "usuario":usuario._id, "cedula": usuario.identificacion });
+        res.status(200).json({ "response": usuario.nombre, "token": tokenENVIO, "usuario": usuario._id, "cedula": usuario.identificacion });
       } else {
         // await bloquearUsuario(identificacion);
         res.status(400).json({ "error": "Superaste el número máximo de solicitudes de recuperación de usuario, inténtalo nuevamente después de 24 horas.", });
@@ -252,7 +234,6 @@ const cambiarEstado = async (req, res) => {
   }
 }
 
-
 const enviarContrasenaTemporal = async (req, res) => {
   const { identificacion } = req.body;
   var usuario = await Usuario.findOne({ identificacion });
@@ -276,13 +257,10 @@ const enviarContrasenaTemporal = async (req, res) => {
         usuario.check = token;
         usuario.role = 'Role_User_Temp';
         await usuario.save();
-
         let cliente = await obtenerDatosCliente(identificacion);
-
         // enviar el correo con la contraseña temporal
         await enviarEmailContrasenaTemporal(cliente.email, cliente.nombres, codigo);
         await guardarSolicitudRecuperarContrasenia(identificacion);
-
         res.status(200).json({ "response": "Contraseña enviada correctamente" });
       } else {
         await bloquearUsuario(identificacion);
@@ -298,8 +276,6 @@ const enviarContrasenaTemporal = async (req, res) => {
 }
 
 
-
-
 const bloquearUsuario = async (identificacion) => {
   var usuario = await Usuario.findOne({ identificacion });
   usuario.estado = false;
@@ -308,14 +284,12 @@ const bloquearUsuario = async (identificacion) => {
 
 // codigo otp para validar antes de enviar la contraseña temporal al correo
 const enviarSmsCodigoOtp = async (codigoOtp, identificacion) => {
-
   const args = {
     identificacion: identificacion,
     enviaSMS: true,
     enviaMail: false,
     codigootp: codigoOtp
   };
-
   soap.createClient(url, function (err, client) {
     if (err) {
       console.log(err)
@@ -334,15 +308,12 @@ const enviarSmsCodigoOtp = async (codigoOtp, identificacion) => {
 
 const VerificarClientePorIdentificacion = async (req, res) => {
   const { identificacion } = req.body;
-
   const user = await Usuario.findOne({ identificacion: identificacion });
   if (user) {
     res.status(400).json({ error: "Ya se encuentra registrado!" });
     return;
   } else {
-
     let cliente = await verificarSiTieneCuentasActivas(identificacion)
-
     if (cliente) {
       if (cliente.cantProductos > 0) {
         const token = await generarJWT('', false, identificacion);
@@ -356,11 +327,9 @@ const VerificarClientePorIdentificacion = async (req, res) => {
   }
 }
 
-
 const verificarContraseniaActual = async (req, res) => {
   const { claveactual } = req.body;
   const identificacion = req.user;
-
   const user = await Usuario.findOne({ identificacion: identificacion });
   if (!user) {
     res.status(400).json({ error: "Error no existe usuario" });
@@ -424,7 +393,6 @@ const cambiarContrasena = async (req, res) => {
           console.log(err);
         }
       });
-
       const user = await Usuario.findOne({ identificacion: identificacion });
       if (!user) {
         res.status(400).json({ error: "Error no existe usuario" });
@@ -436,7 +404,6 @@ const cambiarContrasena = async (req, res) => {
           cliente: user._id,
         });
         await dato.save();
-
         user.password = contrasenaNuevaEncry;
         user.check = null;
         await user.save();
@@ -521,7 +488,6 @@ const RegistroUsuarioConOTP = async (req, res) => {
       res.status(400).json({ error: "Ya existe usuario" });
       return;
     } else {
-
       // verificar si numero de cliente ya se encuentra registrado
       const usernick = await Usuario.findOne({ nick });
       if (usernick) {
@@ -768,5 +734,6 @@ module.exports = {
   enviarCodigoOTPDesbloquearCuenta,
   verificaCodigo,
   cambiarEstado,
-  updateUsuario
+  updateUsuario,
+  enviarUsuarioCliente
 };

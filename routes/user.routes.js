@@ -17,7 +17,7 @@ const {
   verificaCodigo,
   enviarCodigoOTPDesbloquearCuenta,
   cambiarEstado,
-  updateUsuario
+  updateUsuario,enviarUsuarioCliente
 } = require("../controllers/users.controller");
 const { validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
@@ -31,6 +31,12 @@ router.post('/updateUsuario',
   ]),
   updateUsuario)
 
+router.post('/enviar-usuario-cliente',
+  validate([
+    body('identificacion').isLength({ min: 9, max: 15 })
+  ]),
+  enviarUsuarioCliente)
+
 
 router.post('/VerificarCedula',
   validate([
@@ -40,7 +46,6 @@ router.post('/VerificarCedula',
 
 
 router.post('/cambiarDesbloqueoUser', cambiarEstado)
-
 
 // recuperar codigo OTP
 router.post('/enviar-email-recuperar-codigo-otp',
