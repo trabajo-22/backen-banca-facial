@@ -9,7 +9,7 @@ const intentosAuthenticacionSchema = Schema({
         type: String,
     },
     fecha: {
-        type: Date,
+        type: String,
     }
 });
 
