@@ -26,6 +26,8 @@ const sesionClienteSchema = Schema({
 });
 
 
+
+
 sesionClienteSchema.methods.toJSON = function () {
   let usuario = this;
   let usuariObjeto = usuario.toObject();
