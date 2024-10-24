@@ -306,8 +306,11 @@ const enviarSmsCodigoOtp = async (codigoOtp, identificacion) => {
   })
 }
 
-const VerificarClientePorIdentificacion = async (req, res) => {
+
+
+VerificarClientePorIdentificacion = async (req, res) => {
   const { identificacion } = req.body;
+  console.log('III', identificacion)
   const user = await Usuario.findOne({ identificacion: identificacion });
   if (user) {
     res.status(400).json({ error: "Ya se encuentra registrado!" });
@@ -326,6 +329,7 @@ const VerificarClientePorIdentificacion = async (req, res) => {
     }
   }
 }
+
 
 const verificarContraseniaActual = async (req, res) => {
   const { claveactual } = req.body;
@@ -369,6 +373,7 @@ const verificarSiClevesFueronUtilizadas = async (req, res) => {
   }
   res.json({ "response": "Contraseña es nueva" });
 }
+
 
 const cambiarContrasena = async (req, res) => {
   const { codigootp, nuevaclave } = req.body;
@@ -416,6 +421,7 @@ const cambiarContrasena = async (req, res) => {
     return;
   }
 }
+
 
 
 /*
@@ -583,16 +589,22 @@ guardarSettings = async (idusuario) => {
   });
 }
 
+
+
 const generarCodigoOTP = async (req, res) => {
   const identificacion = req.user;
+  console.log('eeee',identificacion)
   var codigoOtp = generarCodigoAleatorio() + '';
   console.log(codigoOtp)
+
   const args = {
     identificacion: identificacion,
     enviaSMS: true,
     enviaMail: true,
     codigootp: codigoOtp
   };
+
+
   // encripta el codigo otp
   var token = bcrypt.hashSync(codigoOtp, 10,
     function (err, hash) {
@@ -603,6 +615,7 @@ const generarCodigoOTP = async (req, res) => {
       }
     }
   );
+
   let solicitudotp = new Solicitudotp({
     identificacion: identificacion,
     tokens: token,
@@ -624,6 +637,7 @@ const generarCodigoOTP = async (req, res) => {
           console.log(er)
           res.status(400).json({ "datos": er });
         } else {
+          console.log('BIEN')
           //var codigoOTP = result.GeneraTokenResult.Token;
           res.status(200).json({ "response": "Código OTP enviado" });
           return;
@@ -632,6 +646,9 @@ const generarCodigoOTP = async (req, res) => {
     }
   })
 }
+
+
+
 
 function generarCodigoAleatorio() {
   let min = 100000;

@@ -18,7 +18,6 @@ const formulario = async (req, res) => {
 }
 
 
-
 const PreguntasSeguridadAll = async (req, res) => {
       try {
         const result = await Preguntasseguridad.aggregate([{ $sample: { size: 1 } }]);
@@ -28,7 +27,6 @@ const PreguntasSeguridadAll = async (req, res) => {
         return res.status(400).json({ error: err.message });
     }
 };
-
 
 
 module.exports = {

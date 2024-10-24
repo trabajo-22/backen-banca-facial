@@ -56,16 +56,29 @@ const usuarioSchema = Schema({
   check: {
     type: String,
   },
+  
   Date: {
     type: Date,
   },
+
   add: {
     type: Date,
   },
+
+  // userToken: {
+  //   type: String,
+  // },
+
+  // idTelefono: {
+  //   type: String,
+  // },
+
   update: {
     type: Date,
   },
 });
+
+
 
 usuarioSchema.methods.toJSON = function () {
   let usuario = this;

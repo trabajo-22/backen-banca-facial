@@ -4,7 +4,9 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 
+
 const enviarEmailContrasenaTemporal = async (email, nombres, contraseniaTemporal) => {
+   
     // const info = await transporter.sendMail({
     //     from: 'Futuro Lamanense <servicios@futurolamanense.fin.ec>', // sender address
     //     to: email, // list of receivers   
@@ -25,7 +27,7 @@ const enviarEmailContrasenaTemporal = async (email, nombres, contraseniaTemporal
         }).catch((error) => {
             console.error(error)
         }
-        )
+    )
 
 }
 

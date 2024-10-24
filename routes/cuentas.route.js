@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { GetTipoCuentasPorCliente, getCuentaOne, GetCuentaAhorrosCliente } = require('./../controllers/cuentas.controller');
-const { validarJWTv2 } = require("../middlewares/validate-jwt");
+const { validarJWTv2,validarToken } = require("../middlewares/validate-jwt");
 const { validate } = require("../middlewares/validate-fields");
 const { body } = require("express-validator");
 
@@ -17,6 +17,7 @@ router.post('/cuentaone',
             body('secuencialcuenta').isInt()
         ]
     ),
+    // validarToken,
     validarJWTv2,
     getCuentaOne
 );
